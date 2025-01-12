@@ -1,0 +1,104 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `mydb` ;
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+SHOW WARNINGS;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `Análise de Pedido`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Análise de Pedido` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `Análise de Pedido` (
+  `Responsável_idResponsável` INT NOT NULL,
+  `Pedido_idPedido` INT NOT NULL,
+  PRIMARY KEY (`Responsável_idResponsável`, `Pedido_idPedido`))
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `Cliente`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Cliente` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `Cliente` (
+  `IdCliente` INT NOT NULL,
+  `Nome` VARCHAR(255) NOT NULL,
+  `CPF` VARCHAR(11) NULL,
+  `Contato` VARCHAR(12) BINARY NULL,
+  `Pedido_idPedido` INT NOT NULL,
+  PRIMARY KEY (`IdCliente`, `Pedido_idPedido`))
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+CREATE UNIQUE INDEX `CPF_UNIQUE` ON `Cliente` (`CPF` ASC) VISIBLE;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `Ordem de Serviço`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Ordem de Serviço` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `Ordem de Serviço` (
+  `idOrdem de Serviço` INT NOT NULL,
+  `Status da OS` VARCHAR(45) NULL,
+  PRIMARY KEY (`idOrdem de Serviço`))
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `Pedido`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Pedido` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `Pedido` (
+  `idPedido` INT NOT NULL,
+  `Serviço` VARCHAR(45) BINARY NULL,
+  `Descrição` VARCHAR(45) NULL,
+  `Data da solicitação` DATE NULL,
+  `Liberado` TINYINT NULL,
+  `Ordem de Serviço_idOrdem de Serviço` INT NOT NULL,
+  PRIMARY KEY (`idPedido`, `Ordem de Serviço_idOrdem de Serviço`))
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+CREATE UNIQUE INDEX `idPedido_UNIQUE` ON `Pedido` (`idPedido` ASC) VISIBLE;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `Responsável`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Responsável` ;
+
+SHOW WARNINGS;
+CREATE TABLE IF NOT EXISTS `Responsável` (
+  `idResponsável` INT NOT NULL,
+  `Nível helpdesk` VARCHAR(45) NULL,
+  `Nome` VARCHAR(45) NULL,
+  `Departamento` VARCHAR(45) NULL,
+  PRIMARY KEY (`idResponsável`))
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
